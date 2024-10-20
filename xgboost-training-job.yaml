@@ -1,0 +1,19 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: xgboost-training-job
+  namespace: xgboost-service
+spec:
+  template:
+    spec:
+      containers:
+      - name: xgboost-trainer
+        image: dianazawislak/xgboost-trainer:latest  
+        volumeMounts:
+        - mountPath: "/mnt/block_storage"
+          name: xgboost-model-storage
+      volumes:
+      - name: xgboost-model-storage
+        persistentVolumeClaim:
+          claimName: xgboost-model-pvc
+      restartPolicy: Never

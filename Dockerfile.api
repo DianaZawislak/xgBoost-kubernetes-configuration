@@ -1,0 +1,10 @@
+FROM python:3.9
+
+# Install necessary libraries
+RUN pip install flask xgboost pandas scikit-learn
+
+# Copy the Flask app to the container
+COPY app.py /app.py
+
+# Set the entry point to run the Flask app
+CMD ["python", "/app.py"]
