@@ -4,7 +4,7 @@ metadata:
   name: xgboost-api-deployment
   namespace: xgboost-service
 spec:
-  replicas: 3  # You can adjust the number of replicas if needed
+  replicas: 3  # Adjust the number of replicas as needed
   selector:
     matchLabels:
       app: xgboost-api
@@ -15,27 +15,20 @@ spec:
     spec:
       containers:
       - name: xgboost-api
-        image: dianazawislak/xgboost-api:latest  # Use the new image you created
+        image: dianazawislak/xgboost-api:latest  # Ensure this is the correct image
         ports:
         - containerPort: 5000
         volumeMounts:
-        - mountPath: "/mnt/block_storage"  # Ensure this matches your mounted volume path
+        - mountPath: "/mnt/block_storage"
           name: xgboost-model-storage
+        resources:
+          requests:
+            memory: "500Mi"
+            cpu: "200m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
       volumes:
       - name: xgboost-model-storage
         persistentVolumeClaim:
           claimName: xgboost-model-pvc
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: xgboost-api-service
-  namespace: xgboost-service
-spec:
-  selector:
-    app: xgboost-api
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 5000
-  type: LoadBalancer  # Expose the API with a load balancer (optional for external access)
