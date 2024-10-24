@@ -1,10 +1,24 @@
-FROM python:3.9
+# Use Python 3.9 slim image to reduce size
+FROM python:3.9-slim
 
-# Install necessary libraries
-RUN pip install xgboost pymongo pandas scikit-learn
+# Set working directory
+WORKDIR /app
 
-# Copy the training script to the container
-COPY train.py /train.py
+# Copy requirements file
+COPY requirements.txt .
 
-# Set the entry point to run the training script
-CMD ["python", "/train.py"]
+# Install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the application code
+COPY train.py .
+COPY .env .
+
+# Create directory for model storage
+RUN mkdir -p /mnt/block_storage
+
+# Set Python to run in unbuffered mode
+ENV PYTHONUNBUFFERED=1
+
+# Command to run the training script
+CMD ["python", "train.py"]

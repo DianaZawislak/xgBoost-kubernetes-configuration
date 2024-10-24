@@ -1,0 +1,58 @@
+# Secrets and Environment Variables
+.env
+.env.*
+!.env.example
+mongo-secret.yaml
+*secret*.yaml
+!*secret*.template.yaml
+*secrets*.yaml
+*.secret.*
+*.secrets.*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+ENV/
+env/
+.venv
+
+# IDEs and Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+
+# Model and Data Files
+*.bin
+*.model
+*.pkl
+
+# Kubernetes
+kubeconfig
+*.kubeconfig

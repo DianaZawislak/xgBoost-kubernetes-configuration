@@ -7,13 +7,16 @@ spec:
   template:
     spec:
       containers:
-      - name: xgboost-trainer
-        image: dianazawislak/xgboost-trainer:latest  
-        volumeMounts:
-        - mountPath: "/mnt/block_storage"
-          name: xgboost-model-storage
+        - name: xgboost-trainer
+          image: dianazawislak/xgboost-trainer:latest
+          envFrom:
+            - secretRef:
+                name: mongodb-credentials
+          volumeMounts:
+            - name: xgboost-model-storage
+              mountPath: /mnt/block_storage
       volumes:
-      - name: xgboost-model-storage
-        persistentVolumeClaim:
-          claimName: xgboost-model-pvc
+        - name: xgboost-model-storage
+          persistentVolumeClaim:
+            claimName: xgboost-model-pvc
       restartPolicy: Never

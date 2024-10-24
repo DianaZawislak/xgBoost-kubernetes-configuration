@@ -1,10 +1,25 @@
-FROM python:3.9
+FROM python:3.9-slim
 
-# Install necessary libraries
-RUN pip install flask xgboost pandas scikit-learn
+WORKDIR /app
 
-# Copy the Flask app to the container
-COPY app.py /app.py
+# Copy requirements file
+COPY requirements.txt .
 
-# Set the entry point to run the Flask app
-CMD ["python", "/app.py"]
+# Install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the API application code
+COPY app.py .
+COPY .env .
+
+# Create directory for model storage
+RUN mkdir -p /mnt/block_storage
+
+# Set Python to run in unbuffered mode
+ENV PYTHONUNBUFFERED=1
+
+# Expose the port the app runs on
+EXPOSE 5000
+
+# Command to run the Flask app
+CMD ["python", "app.py"]
