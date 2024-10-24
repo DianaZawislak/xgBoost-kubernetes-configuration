@@ -6,7 +6,7 @@ metadata:
   namespace: xgboost-service
 spec:
   type: ExternalName
-  externalName: 10.108.0.15
+  externalName: 159.65.167.68
   ports:
     - port: 27017
       targetPort: 27017
@@ -19,6 +19,6 @@ metadata:
   namespace: xgboost-service
 subsets:
   - addresses:
-      - ip: 10.108.0.15
+      - ip: 159.65.167.68
     ports:
       - port: 27017
