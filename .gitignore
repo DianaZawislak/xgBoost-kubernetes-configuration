@@ -55,4 +55,4 @@ Thumbs.db
 
 # Kubernetes
 kubeconfig
-*.kubeconfig
+*.kubeconfig.venv_history
