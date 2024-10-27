@@ -1,24 +1,12 @@
-# mongodb-service.yaml
 apiVersion: v1
 kind: Service
 metadata:
   name: mongodb
   namespace: xgboost-service
 spec:
-  type: ExternalName
-  externalName: 159.65.167.68
+  type: ClusterIP
   ports:
     - port: 27017
       targetPort: 27017
----
-# This endpoint ensures the service points to your specific MongoDB instance
-apiVersion: v1
-kind: Endpoints
-metadata:
-  name: mongodb
-  namespace: xgboost-service
-subsets:
-  - addresses:
-      - ip: 159.65.167.68
-    ports:
-      - port: 27017
+  externalIPs:
+    - "10.108.0.15"

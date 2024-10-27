@@ -1,4 +1,4 @@
-# Use Python 3.9 slim image to reduce size
+# Use Python 3.9 slim image
 FROM python:3.9-slim
 
 # Set working directory
