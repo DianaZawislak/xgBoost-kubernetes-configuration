@@ -4,14 +4,26 @@ metadata:
   name: xgboost-training-job
   namespace: xgboost-service
 spec:
+  backoffLimit: 2
   template:
     spec:
+      imagePullSecrets:
+        - name: regcred
+      dnsPolicy: ClusterFirst
       containers:
         - name: xgboost-trainer
-          image: dianazawislak/xgboost-trainer:latest
+          image: 174.138.118.179:5000/xgboost-training:latest
+          imagePullPolicy: Always
           envFrom:
             - secretRef:
                 name: mongodb-credentials
+          resources:
+            requests:
+              memory: "2Gi"
+              cpu: "1000m"
+            limits:
+              memory: "4Gi"
+              cpu: "2000m"
           volumeMounts:
             - name: xgboost-model-storage
               mountPath: /mnt/block_storage

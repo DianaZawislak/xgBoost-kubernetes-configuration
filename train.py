@@ -15,10 +15,10 @@ username = os.getenv('MONGO_USERNAME')
 password = os.getenv('MONGO_PASSWORD')
 
 # MongoDB connection parameters
-host = "10.108.0.15"  # MongoDB IP
-port = "27017"        # MongoDB port
-database = "rentals"  # Target database
-collection_name = "zip_33131"  # Target collection
+host = "10.108.0.15"  # Full DNS name
+port = "27017"
+database = "rentals"
+collection_name = "zip48201"
 
 # Construct MongoDB URI with authSource=admin
 mongo_uri = f"mongodb://{username}:{password}@{host}:{port}/{database}?authSource=admin"
@@ -109,7 +109,6 @@ try:
     model.fit(
         X_train,
         y_train,
-        early_stopping_rounds=10,
         eval_set=[(X_test, y_test)],
         verbose=True
     )

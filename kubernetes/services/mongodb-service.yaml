@@ -4,9 +4,9 @@ metadata:
   name: mongodb
   namespace: xgboost-service
 spec:
+  selector:
+    app: mongodb
   type: ClusterIP
   ports:
     - port: 27017
       targetPort: 27017
-  externalIPs:
-    - "10.108.0.15"

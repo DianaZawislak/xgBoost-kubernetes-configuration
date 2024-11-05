@@ -16,9 +16,10 @@ def predict():
 
     # Make a prediction using the XGBoost model
     prediction = model.predict(df)
+    print(prediction)
 
-    # Return the prediction as a JSON response
-    return jsonify({'prediction': prediction[0]})
+    # Convert prediction to a standard float for JSON serialization
+    return jsonify({'prediction': float(prediction[0])})
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)

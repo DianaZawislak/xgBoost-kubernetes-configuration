@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: xgboost-api
+  namespace: xgboost-service
+spec:
+  type: LoadBalancer  # Use "NodePort" if your environment doesn't support LoadBalancer
+  selector:
+    app: xgboost-api
+  ports:
+    - protocol: TCP
+      port: 80  # External port to access the API
+      targetPort: 5000  # Port on the container defined in the deployment

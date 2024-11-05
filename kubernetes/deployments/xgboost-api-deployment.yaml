@@ -4,7 +4,7 @@ metadata:
   name: xgboost-api-deployment
   namespace: xgboost-service
 spec:
-  replicas: 1  # Adjust the number of replicas as needed
+  replicas: 1
   selector:
     matchLabels:
       app: xgboost-api
@@ -15,7 +15,9 @@ spec:
     spec:
       containers:
       - name: xgboost-api
-        image: dianazawislak/xgboost-api:latest  # Ensure this is the correct image
+        image: 174.138.118.179:5000/xgboost-api:latest
+        command: ["python"]
+        args: ["app.py"]  # Make sure this matches your API script name
         ports:
         - containerPort: 5000
         volumeMounts:
@@ -28,6 +30,19 @@ spec:
           limits:
             memory: "1Gi"
             cpu: "500m"
+        env:
+        - name: MONGO_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: mongodb-credentials
+              key: MONGO_USERNAME
+        - name: MONGO_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mongodb-credentials
+              key: MONGO_PASSWORD
+        - name: MONGODB_HOST
+          value: "159.65.167.68"  # MongoDB router IP
       volumes:
       - name: xgboost-model-storage
         persistentVolumeClaim:

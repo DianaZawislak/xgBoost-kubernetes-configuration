@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: xgboost-model-pvc
+  name: mongodb-pvc
   namespace: xgboost-service
 spec:
   accessModes:
