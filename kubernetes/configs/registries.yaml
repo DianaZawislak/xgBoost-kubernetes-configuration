@@ -1,0 +1,4 @@
+unqualified-search-registries: ["10.245.68.86:5000"]
+[[registry]]
+location = "10.245.68.86:5000"
+insecure = true

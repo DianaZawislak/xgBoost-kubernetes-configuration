@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: registry-hosts
+  namespace: xgboost-service
+data:
+  hosts.toml: |
+    server = "http://157.245.3.167:5000"
+    [host."http://157.245.3.167:5000"]
+      capabilities = ["pull", "resolve"]
+      skip_verify = true

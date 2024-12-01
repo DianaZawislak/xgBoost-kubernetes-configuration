@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: containerd-config
+  namespace: xgboost-service
+spec:
+  selector:
+    matchLabels:
+      app: containerd-config
+  template:
+    metadata:
+      labels:
+        app: containerd-config
+    spec:
+      containers:
+      - name: containerd-config
+        image: busybox
+        command:
+        - /bin/sh
+        - -c
+        - |
+          mkdir -p /etc/containers && cp /config/registries.yaml /etc/containers/registries.conf && echo "Configuration copied successfully" && tail -f /dev/null
+        volumeMounts:
+        - name: config-volume
+          mountPath: /config
+        securityContext:
+          privileged: true
+      volumes:
+      - name: config-volume
+        configMap:
+          name: registry-config

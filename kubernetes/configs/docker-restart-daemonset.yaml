@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: restart-docker
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      app: restart-docker
+  template:
+    metadata:
+      labels:
+        app: restart-docker
+    spec:
+      hostPID: true
+      containers:
+        - name: restart-docker
+          image: ubuntu
+          command:
+            - sh
+            - "-c"
+            - |
+              apt-get update && apt-get install -y systemctl docker.io; \
+              echo "Attempting to restart Docker"; \
+              if command -v systemctl >/dev/null 2>&1; then \
+                systemctl restart docker; \
+              else \
+                echo "systemctl not available"; \
+              fi
+          securityContext:
+            privileged: true
+      tolerations:
+        - operator: "Exists"
+      nodeSelector:
+        kubernetes.io/os: linux

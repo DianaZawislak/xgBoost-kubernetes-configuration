@@ -1,34 +1,42 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: xgboost-training-job
+  name: xgboost-training-job-007
   namespace: xgboost-service
 spec:
-  backoffLimit: 2
   template:
     spec:
-      imagePullSecrets:
-        - name: regcred
-      dnsPolicy: ClusterFirst
       containers:
-        - name: xgboost-trainer
-          image: 174.138.118.179:5000/xgboost-training:latest
-          imagePullPolicy: Always
-          envFrom:
-            - secretRef:
-                name: mongodb-credentials
-          resources:
-            requests:
-              memory: "2Gi"
-              cpu: "1000m"
-            limits:
-              memory: "4Gi"
-              cpu: "2000m"
-          volumeMounts:
-            - name: xgboost-model-storage
-              mountPath: /mnt/block_storage
+      - name: xgboost-training
+        image: 157.245.3.167:5000/xgboost-training:latest
+        imagePullPolicy: Always
+        env:
+        - name: MONGO_URI
+          valueFrom:
+            secretKeyRef:
+              name: mongodb-credentials
+              key: MONGO_URI
+        volumeMounts:
+        - name: model-storage
+          mountPath: /app/models
+        - name: registry-config
+          mountPath: /etc/containerd/certs.d/157.245.3.167:5000
+        - name: registry-config
+          mountPath: /etc/docker/certs.d/157.245.3.167:5000
+          subPath: registry.crt
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
       volumes:
-        - name: xgboost-model-storage
-          persistentVolumeClaim:
-            claimName: xgboost-model-pvc
+      - name: model-storage
+        persistentVolumeClaim:
+          claimName: xgboost-model-pvc
+      - name: registry-config
+        configMap:
+          name: registry-config
       restartPolicy: Never
+  backoffLimit: 4

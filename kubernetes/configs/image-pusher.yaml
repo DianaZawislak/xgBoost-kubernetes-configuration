@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: image-pusher
+  namespace: xgboost-service
+spec:
+  containers:
+  - name: skopeo
+    image: quay.io/skopeo/stable
+    command: ["sleep", "3600"]
+    securityContext:
+      privileged: true

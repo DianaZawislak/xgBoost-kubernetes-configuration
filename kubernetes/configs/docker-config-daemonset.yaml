@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: docker-config
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      name: docker-config
+  template:
+    metadata:
+      labels:
+        name: docker-config
+    spec:
+      containers:
+      - name: modify-docker-config
+        image: busybox
+        command:
+          - /bin/sh
+          - -c
+          - |
+            mkdir -p /etc/docker
+            echo '{
+              "insecure-registries": ["174.138.118.179:5000"]
+            }' > /etc/docker/daemon.json
+        volumeMounts:
+          - name: docker-socket
+            mountPath: /var/run/docker.sock
+      restartPolicy: Always
+      volumes:
+        - name: docker-socket
+          hostPath:
+            path: /var/run/docker.sock

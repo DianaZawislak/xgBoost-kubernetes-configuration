@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: xgboost-api
-        image: 174.138.118.179:5000/xgboost-api:latest
+        image: registry.xgboost-service:5000/xgboost-api:latest
         command: ["python"]
         args: ["app.py"]  # Make sure this matches your API script name
         ports:
